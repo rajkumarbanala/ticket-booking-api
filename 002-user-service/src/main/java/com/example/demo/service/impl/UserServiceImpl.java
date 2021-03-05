@@ -87,11 +87,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		
 		user = userDAO.save(user);
 		
-		if(user == null)
-			throw new RuntimeException("unable to process details");
-		
 		UserResponseCreateDTO userResponseCreateDTO = new UserResponseCreateDTO();
-		BeanUtils.copyProperties(userResponseCreateDTO, user);
+		BeanUtils.copyProperties(user, userResponseCreateDTO);
 		return userResponseCreateDTO;
 	}
 	

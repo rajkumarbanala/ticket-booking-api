@@ -22,6 +22,7 @@ import com.example.demo.dao.UserTicketDAO;
 import com.example.demo.dao.UserTicketDetailsDAO;
 import com.example.demo.dto.TicketBookingRequestCreate;
 import com.example.demo.dto.TicketBookingResponseCreate;
+import com.example.demo.dto.UserTicketDetailsRequestCreate;
 import com.example.demo.dto.UserTicketDetailsResponseCreate;
 import com.example.demo.dto.UserTicketDetailsResponseList;
 import com.example.demo.dto.UserTicketsResponseList;
@@ -172,13 +173,13 @@ public class UserTicketServiceImpl implements UserTicketService {
 		
 		userTicket = userTicketDAO.save(userTicket);
 		
-		List<UserTicketDetails> userTicketDetailsList = null;
-		BeanUtils.copyProperties(ticketBookingRequestCreate.getUserDetails(), userTicketDetailsList);
-		
 		List<UserTicketDetails> userTicketDetailsListCreate = new ArrayList<>();
 		
 		int seatsBookedCount = 0;
-		for (UserTicketDetails userTicketDetails : userTicketDetailsList) {
+		for (UserTicketDetailsRequestCreate userTicketDetailsRequestCreate : ticketBookingRequestCreate.getUserDetails()) {
+			
+			UserTicketDetails userTicketDetails = new UserTicketDetails();
+			BeanUtils.copyProperties(userTicketDetailsRequestCreate, userTicketDetails);
 			
 			if (seatsBookedCount >= selectedSeats)
 				break;
@@ -196,6 +197,7 @@ public class UserTicketServiceImpl implements UserTicketService {
 		for (UserTicketDetails userTicketDetails : userTicketDetailsListCreate) {
 			
 			userTicketDetails = userTicketDetailsDAO.save(userTicketDetails);
+			LOG.debug("bookTicket().userTicketDetails:" + userTicketDetails);
 //			userDetails.add(UserTicketDetailsMapper.INSTANCE.toUserTicketDetailsResponseCreate(userTicketDetails));
 			UserTicketDetailsResponseCreate userTicketDetailsResponseCreate = new UserTicketDetailsResponseCreate();
 			BeanUtils.copyProperties(userTicketDetails, userTicketDetailsResponseCreate);
@@ -230,8 +232,14 @@ public class UserTicketServiceImpl implements UserTicketService {
 			List<UserTicketDetails> userTicketDetailsList = userTicketDetailsDAO.findByUserTicketId(userTicket.getId());
 			
 //			List<UserTicketDetailsResponseList> userTicketDetailsListDTO = UserTicketDetailsMapper.INSTANCE.toUserTicketDetailsResponseList(userTicketDetailsList);
-			List<UserTicketDetailsResponseList> userTicketDetailsListDTO = new ArrayList();
-			BeanUtils.copyProperties(userTicketDetailsList, userTicketDetailsListDTO);
+			List<UserTicketDetailsResponseList> userTicketDetailsListDTO = new ArrayList<>();
+			
+			userTicketDetailsList.forEach(userTicketDetails->{
+				
+				UserTicketDetailsResponseList userTicketDetailsResponseList = new UserTicketDetailsResponseList();
+				BeanUtils.copyProperties(userTicketDetails, userTicketDetailsResponseList);
+				userTicketDetailsListDTO.add(userTicketDetailsResponseList);				
+			});
 			
 			UserTicketsResponseList userTicketsListResponse = new UserTicketsResponseList();
 			BeanUtils.copyProperties(userTicket, userTicketsListResponse);

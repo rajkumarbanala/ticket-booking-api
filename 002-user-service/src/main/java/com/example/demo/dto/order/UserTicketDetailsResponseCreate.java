@@ -2,6 +2,8 @@ package com.example.demo.dto.order;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -22,6 +24,7 @@ public class UserTicketDetailsResponseCreate {
 	
 	private String lastName;
 	
+	@JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
 	private LocalDateTime dob;
 	
 	private String mobile;

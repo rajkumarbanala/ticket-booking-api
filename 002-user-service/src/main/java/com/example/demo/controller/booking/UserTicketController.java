@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.order.TicketBookingRequestCreate;
 import com.example.demo.dto.order.TicketBookingResponseCreate;
-import com.example.demo.dto.order.UserTicketsListResponse;
+import com.example.demo.dto.order.UserTicketsResponseList;
 import com.example.demo.service.booking.UserTicketService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,7 +56,7 @@ public class UserTicketController {
 	}
 	
 	@GetMapping("/{userId}")
-	public List<UserTicketsListResponse> getUserTickets(@PathVariable String userId) {
+	public List<UserTicketsResponseList> getUserTickets(@PathVariable String userId) {
 		LOG.debug("getUserTickets()");
 		
 		return userTicketService.getUserTickets(userId);

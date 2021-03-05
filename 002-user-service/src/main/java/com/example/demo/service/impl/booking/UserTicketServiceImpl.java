@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dto.order.TicketBookingRequestCreate;
 import com.example.demo.dto.order.TicketBookingResponseCreate;
-import com.example.demo.dto.order.UserTicketsListResponse;
+import com.example.demo.dto.order.UserTicketsResponseList;
 import com.example.demo.exception.AppBaseException;
 import com.example.demo.feignclient.UserTicketClient;
 import com.example.demo.service.booking.UserTicketService;
@@ -35,7 +35,7 @@ public class UserTicketServiceImpl implements UserTicketService {
 		return userTicketClient.bookTicket(userId, ticketBookingRequestCreate);
 	}
 
-	public List<UserTicketsListResponse> getUserTickets(String userId) {
+	public List<UserTicketsResponseList> getUserTickets(String userId) {
 		LOG.debug("getUserTickets");
 		
 		try {

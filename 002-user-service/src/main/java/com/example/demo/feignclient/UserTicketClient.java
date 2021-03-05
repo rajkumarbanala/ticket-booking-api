@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.demo.dto.order.TicketBookingRequestCreate;
 import com.example.demo.dto.order.TicketBookingResponseCreate;
-import com.example.demo.dto.order.UserTicketsListResponse;
+import com.example.demo.dto.order.UserTicketsResponseList;
 
 /**
  * @author Rajkumar Banala 19-Feb-2021
@@ -29,5 +29,5 @@ public interface UserTicketClient {
 	public TicketBookingResponseCreate bookTicket(@PathVariable String userId, @Valid @RequestBody TicketBookingRequestCreate ticketBookingRequestCreate);
 	
 	@GetMapping("/{userId}")
-	public List<UserTicketsListResponse> getUserTickets(@PathVariable String userId);
+	public List<UserTicketsResponseList> getUserTickets(@PathVariable String userId);
 }

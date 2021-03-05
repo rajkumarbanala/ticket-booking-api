@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.example.demo.dto.order.TicketBookingRequestCreate;
 import com.example.demo.dto.order.TicketBookingResponseCreate;
-import com.example.demo.dto.order.UserTicketsListResponse;
+import com.example.demo.dto.order.UserTicketsResponseList;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -56,7 +56,7 @@ public class UserTicketClientFallbackFactory implements FallbackFactory<UserTick
 			}
 
 			@Override
-			public List<UserTicketsListResponse> getUserTickets(String userId) {
+			public List<UserTicketsResponseList> getUserTickets(String userId) {
 				// TODO Auto-generated method stub
 				return null;
 			}
