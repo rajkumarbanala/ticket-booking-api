@@ -1,0 +1,140 @@
+Login API:
+-------------------------------------------------
+Request:
+http://localhost:9004/user/api/token/login
+POST
+{
+    "username": "raj",
+    "password": "raj"
+}
+Response:
+{
+    "status": 200,
+    "message": "success",
+    "result": {
+        "token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyYWoiLCJzY29wZXMiOlt7ImF1dGhvcml0eSI6IlJPTEVfQURNSU4ifV0sImlzcyI6Imh0dHA6Ly91c2suY29tIiwiaWF0IjoxNjE0OTQ3NDMzLCJleHAiOjE2MTQ5NjU0MzN9.ZfzpcKATfRIpovCcdvBIlcbtuD12cVOfAZAr1Nv3PqmD4z2aJn44muT6ilFNChqGN5DayNn8urydaQY93P_glQ",
+        "username": "raj"
+    }
+}
+
+Signup API:
+-------------------------------------------------
+Request:
+http://localhost:9004/user/apip/signup
+POST
+{
+    "firstName": "Rajkumar",
+    "lastName": "Banala",
+    "dob": "01-01-1993",
+    "mobile": "1234567890",
+    "email": "sample@gmail.com",
+    "username": "raj",
+    "password": "raj"
+
+}
+Response:
+{
+    "id": 6,
+    "firstName": "Rajkumar",
+    "lastName": "Banala",
+    "dob": "01-01-1993",
+    "mobile": "1234567890",
+    "email": "sample@gmail.com",
+    "username": "raj"
+}
+
+Book Train Ticket API:
+-------------------------------------------------
+http://localhost:8085/user/api/userTickets/{userId}
+POST
+{
+  "trainRouteId": "ff897080-359d-4274-bf97-9574a5995fc1",
+  "travelDate": "11-03-2021 17:25:00",
+  "selectedSeats": 2,
+  "userDetails": [
+    {
+      "firstName": "Rajkumar",
+      "lastName": "Banala",
+      "dob": "11-03-2021 00:00:00",
+      "mobile": "1234567890",
+      "aadharNo": "1234567890",
+      "panNo": "1234567890"
+    },
+    {
+      "firstName": "User1",
+      "lastName": "Sample",
+      "dob": "11-03-2021 00:00:00",
+      "mobile": "9876543210",
+      "aadharNo": "9876543210",
+      "panNo": "9876543210"
+    }
+  ]
+}
+Response:
+{
+    "trainNumber": "12345",
+    "trainName": "Passenger",
+    "trainCode": "PSR",
+    "journey": 12,
+    "fromStation": "Hyderabad",
+    "toStation": "Benguluru",
+    "distance": 400,
+    "ticketNumber": "TK-100",
+    "selectedSeats": 2,
+    "departureTime": "11-03-2021 17:25:00",
+    "arrivalTime": "12-03-2021 05:25:00",
+    "userDetails": [
+        {
+            "seatNo": 1000,
+            "firstName": "Rajkumar",
+            "lastName": "Banala",
+            "dob": "11-03-2021 00:00:00",
+            "mobile": "1234567890",
+            "aadharNo": "1234567890",
+            "panNo": "1234567890"
+        },
+        {
+            "seatNo": 1001,
+            "firstName": "User1",
+            "lastName": "Sample",
+            "dob": "11-03-2021 00:00:00",
+            "mobile": "9876543210",
+            "aadharNo": "9876543210",
+            "panNo": "9876543210"
+        }
+    ]
+}
+
+My Train Ticket API:
+-------------------------------------------------
+http://localhost:9004/user/api/userTickets/{userId}
+GET
+[
+    {
+        "id": "43ec1e44-a9df-4196-8f91-db5058b5ce04",
+        "departureTime": "2021-03-11T17:25:00",
+        "ticketNumber": "TK-100",
+        "numberOfSeats": 2,
+        "createdDate": "05-03-2021 19:28:51",
+        "userDetails": [
+            {
+                "seatNo": 1000,
+                "firstName": "Rajkumar",
+                "lastName": "Banala",
+                "dob": "11-03-2021 00:00:00",
+                "mobile": "1234567890",
+                "aadharNo": "1234567890",
+                "panNo": "1234567890"
+            },
+            {
+                "seatNo": 1001,
+                "firstName": "User1",
+                "lastName": "Sample",
+                "dob": "11-03-2021 00:00:00",
+                "mobile": "9876543210",
+                "aadharNo": "9876543210",
+                "panNo": "9876543210"
+            }
+        ]
+    }
+]

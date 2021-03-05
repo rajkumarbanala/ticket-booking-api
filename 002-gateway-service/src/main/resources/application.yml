@@ -1,0 +1,31 @@
+server:
+  port: 9004
+
+logging:
+  level:
+    com: debug
+    org: error  
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9002/eureka
+  instance:
+    prefer-ip-address: true
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+      - id: order
+        uri: lb://order-service
+          #http://localhost:8082/
+        predicates:
+        - Path=/order/**
+      - id: user
+        uri: lb://user-service
+          #http://localhost:8081/
+        predicates:
+        - Path=/user/**
