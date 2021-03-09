@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
@@ -27,21 +26,15 @@ public class JsonUtilLocalDateTimeSerializer extends JsonSerializer<LocalDateTim
 	/**
 	 * Used JsonSerializer<LocalDateTime> & JsonDeserializer<LocalDateTime> instead of @JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
 	 * Because Serialization & De-Serialization is not working with @JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
+	 * @throws IOException 
 	 */
 	@Override
-	public void serialize(LocalDateTime date, JsonGenerator jsonGenerator, SerializerProvider provider) throws IOException, JsonProcessingException {
-//		LOG.debug("serialize()");
+	public void serialize(LocalDateTime date, JsonGenerator jsonGenerator, SerializerProvider provider) throws IOException {
+		LOG.debug("serialize()");
 
-		try {
+		String formattedDate = date.format(dateTimeFormatter);
+		LOG.debug("serialize().formattedDate:" + formattedDate);
 
-			String formattedDate = date.format(dateTimeFormatter);
-//			LOG.debug("serialize().formattedDate:" + formattedDate);
-
-			jsonGenerator.writeString(formattedDate);
-
-		} catch (Exception e) {
-			LOG.error(e.getMessage(), e);
-			throw new RuntimeException(e);
-		}
+		jsonGenerator.writeString(formattedDate);
 	}
 }
