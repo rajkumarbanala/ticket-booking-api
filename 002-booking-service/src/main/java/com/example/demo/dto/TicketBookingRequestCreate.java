@@ -6,7 +6,10 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.example.demo.util.JsonUtilLocalDateTimeDeSerializer;
+import com.example.demo.util.JsonUtilLocalDateTimeSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +29,8 @@ public class TicketBookingRequestCreate {
 	private String trainRouteId;
 	
 	@NotNull
-	@JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
+	@JsonSerialize(using = JsonUtilLocalDateTimeSerializer.class)
+	@JsonDeserialize(using = JsonUtilLocalDateTimeDeSerializer.class)
 	private LocalDateTime travelDate;
 	
 	@NotNull

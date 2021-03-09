@@ -90,6 +90,10 @@
 		     <version>3.6.0.1398</version>
 		     <type>pom</type>
 		 </dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>

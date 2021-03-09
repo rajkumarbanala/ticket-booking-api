@@ -11,7 +11,10 @@ import javax.persistence.Version;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.example.demo.util.JsonUtilLocalDateTimeDeSerializer;
+import com.example.demo.util.JsonUtilLocalDateTimeSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -50,12 +53,14 @@ public class StationRoute {
 	@Column(name = "version")
 	private Long version;
 
-	@JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
+	@JsonSerialize(using = JsonUtilLocalDateTimeSerializer.class)
+	@JsonDeserialize(using = JsonUtilLocalDateTimeDeSerializer.class)
 	@CreatedDate
 	@Column(name = "created_date")
 	private LocalDateTime createdDate;
 	
-	@JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
+	@JsonSerialize(using = JsonUtilLocalDateTimeSerializer.class)
+	@JsonDeserialize(using = JsonUtilLocalDateTimeDeSerializer.class)
 	@LastModifiedDate
 	@Column(name = "last_modified_date")
 	private LocalDateTime lastModifiedDate;

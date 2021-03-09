@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.example.demo.exception.AppBaseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import feign.FeignException;
 
@@ -36,7 +33,7 @@ public class UserServiceHandler {
 	public ErrorResponse handleMethodArgumentNotValid(MethodArgumentNotValidException e) {
 		LOG.debug("handleMethodArgumentNotValid()");
 		
-		LOG.error(e.getMessage(), e);
+//		LOG.error(e.getMessage(), e);
 		
 		ErrorResponse errorResponse = new ErrorResponse();
 		errorResponse.setTimeStamp(LocalDateTime.now());
@@ -55,10 +52,10 @@ public class UserServiceHandler {
 	public ErrorResponse constraintViolationException(ConstraintViolationException e) {
 		LOG.debug("constraintViolationException()");
 		
-		LOG.error(e.getMessage(), e);
+//		LOG.error(e.getMessage(), e);
 		
 		ErrorResponse errorResponse = new ErrorResponse();
-		//errorResponse.setTimeStamp(LocalDateTime.now());
+		errorResponse.setTimeStamp(LocalDateTime.now());
 		errorResponse.setErrorMessage(HttpStatus.BAD_REQUEST.name());
 		errorResponse.setErrorCode(400);
 		
@@ -78,10 +75,10 @@ public class UserServiceHandler {
 	protected final ErrorResponse appBaseException(AppBaseException e) {
 		LOG.debug("appBaseException()");
 		
-		LOG.error(e.getMessage(), e);
+//		LOG.error(e.getMessage(), e);
 		
 		ErrorResponse errorResponse = new ErrorResponse();
-		//errorResponse.setTimeStamp(LocalDateTime.now());
+		errorResponse.setTimeStamp(LocalDateTime.now());
 		errorResponse.setErrorMessage(e.getMessage());
 		errorResponse.setErrorCode(400);
 		
@@ -93,62 +90,19 @@ public class UserServiceHandler {
 	protected final Object feignException(FeignException e) {
 		LOG.debug("feignException()");
 		
-		TypeReference<FeignErrorResponse> typeReferenceErrorResponse = new TypeReference<FeignErrorResponse>() {
-		};
+//		LOG.error(e.getMessage(), e);
 		
-		FeignErrorResponse feignErrorResponse = null;
+		ErrorResponse errorResponse = ErrorResponse.parseErrorResponse(e.contentUTF8());
 		
-		String errorResponseString = e.contentUTF8();
-		
-		LOG.error("feignException().errorResponseString:" + errorResponseString);
-		
-		try {
-			feignErrorResponse = new ObjectMapper().convertValue(errorResponseString, typeReferenceErrorResponse);
-			LOG.debug("feignException().errorResponse1:" + feignErrorResponse);
-		} catch (Exception e2) {
-//			LOG.error(e2.getMessage(), e2);
-			
-			try {
-				feignErrorResponse = new ObjectMapper().readValue(errorResponseString, typeReferenceErrorResponse);
-				LOG.debug("feignException().errorResponse2:" + feignErrorResponse);
-			} catch (JsonProcessingException e1) {
-//				LOG.error(e1.getMessage(), e1);
-				
-				try {
-					feignErrorResponse = new ObjectMapper().readValue(errorResponseString, FeignErrorResponse.class);
-					LOG.debug("feignException().errorResponse3:" + feignErrorResponse);
-				} catch (JsonProcessingException e3) {
-//					LOG.error(e3.getMessage(), e3);
-					
-					
-					try {
-						
-						feignErrorResponse = new ObjectMapper().convertValue(errorResponseString, FeignErrorResponse.class);
-						LOG.debug("feignException().errorResponse4:" + feignErrorResponse);
-					} catch (Exception e4) {
-//						LOG.error(e3.getMessage(), e3);
-					}
-				}
-			}
-		}
-		
-		if(feignErrorResponse != null) {
-			
-			ErrorResponse errorResponse = new ErrorResponse();
-			errorResponse.setTimeStamp(LocalDateTime.now());
-			errorResponse.setErrorMessage(feignErrorResponse.getErrorMessage());
-			errorResponse.setErrorCode(400);
+		if(errorResponse != null)
 			return errorResponse;
-		}
 		
-		LOG.error(e.getMessage(), e);
-		
-		ErrorResponse errorResponse = new ErrorResponse();
+		errorResponse = new ErrorResponse();
 		errorResponse.setTimeStamp(LocalDateTime.now());
-		feignErrorResponse.setErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR.name());
-		feignErrorResponse.setErrorCode(400);
+		errorResponse.setErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR.name());
+		errorResponse.setErrorCode(400);
 		
-		return feignErrorResponse;
+		return errorResponse;
 	}
 	
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -156,10 +110,10 @@ public class UserServiceHandler {
 	protected final ErrorResponse unhandledException(Exception e) {
 		LOG.debug("unhandledException()");
 		
-		LOG.error(e.getMessage(), e);
+//		LOG.error(e.getMessage(), e);
 		
 		ErrorResponse errorResponse = new ErrorResponse();
-		//errorResponse.setTimeStamp(LocalDateTime.now());
+		errorResponse.setTimeStamp(LocalDateTime.now());
 		errorResponse.setErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR.name());
 		errorResponse.setErrorCode(400);
 		

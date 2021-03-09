@@ -3,7 +3,10 @@ package com.example.demo.dto.order;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.example.demo.util.JsonUtilLocalDateTimeDeSerializer;
+import com.example.demo.util.JsonUtilLocalDateTimeSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -27,7 +30,8 @@ public class UserTicketsResponseList {
 	
 	private int numberOfSeats;
 	
-	@JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
+	@JsonSerialize(using = JsonUtilLocalDateTimeSerializer.class)
+	@JsonDeserialize(using = JsonUtilLocalDateTimeDeSerializer.class)
 	private LocalDateTime createdDate;
 	
 	private List<UserTicketDetailsResponseList> userDetails;

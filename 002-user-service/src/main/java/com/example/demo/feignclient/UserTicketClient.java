@@ -19,7 +19,7 @@ import com.example.demo.dto.order.UserTicketsResponseList;
  *
  */
 
-@FeignClient(name = "http://booking-service/booking/api/userTickets", fallbackFactory = UserTicketClientFallbackFactory.class)
+@FeignClient(name = "http://booking-service/booking/api/userTickets")
 public interface UserTicketClient {
 	
 	@GetMapping("/info")

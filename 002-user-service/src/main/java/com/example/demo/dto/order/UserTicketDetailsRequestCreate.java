@@ -2,7 +2,10 @@ package com.example.demo.dto.order;
 
 import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.example.demo.util.JsonUtilLocalDateTimeDeSerializer;
+import com.example.demo.util.JsonUtilLocalDateTimeSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,7 +29,8 @@ public class UserTicketDetailsRequestCreate {
 	
 	private String lastName;
 	
-	@JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
+	@JsonSerialize(using = JsonUtilLocalDateTimeSerializer.class)
+	@JsonDeserialize(using = JsonUtilLocalDateTimeDeSerializer.class)
 	private LocalDateTime dob;
 	
 	private String mobile;
