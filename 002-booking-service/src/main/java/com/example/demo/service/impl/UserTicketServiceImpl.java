@@ -49,13 +49,13 @@ public class UserTicketServiceImpl implements UserTicketService {
 	private static final Logger LOG = LoggerFactory.getLogger(UserTicketServiceImpl.class);
 	
 	@Autowired
-	private TrainDAO trainDAO;
+	TrainDAO trainDAO;
 	
 	@Autowired
-	private TrainRouteDAO trainRouteDAO;
+	TrainRouteDAO trainRouteDAO;
 	
 	@Autowired
-	private UserTicketDAO userTicketDAO;
+	UserTicketDAO userTicketDAO;
 	
 	@Autowired
 	TrainTimingsDAO trainTimingsDAO;
@@ -79,7 +79,7 @@ public class UserTicketServiceImpl implements UserTicketService {
 		// inputs
 		String trainRouteId = ticketBookingRequestCreate.getTrainRouteId();
 		LocalDateTime travelDate = ticketBookingRequestCreate.getTravelDate();
-		int selectedSeats = ticketBookingRequestCreate.getSelectedSeats();
+		Integer selectedSeats = ticketBookingRequestCreate.getSelectedSeats();
 		
 		Optional<TrainRoute> trainRouteOptional = trainRouteDAO.findById(trainRouteId);
 		

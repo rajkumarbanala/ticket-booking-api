@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
  *
  */
 
-public class DateUtil {
+public interface DateUtil {
 	
 	public static String convertToMysqlFromat(LocalDateTime date) {
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

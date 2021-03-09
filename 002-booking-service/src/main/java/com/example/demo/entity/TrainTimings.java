@@ -11,7 +11,10 @@ import javax.persistence.Version;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.example.demo.util.JsonUtilLocalDateTimeDeSerializer;
+import com.example.demo.util.JsonUtilLocalDateTimeSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,7 +43,8 @@ public class TrainTimings {
 	@Column(name = "train_route_id", nullable = false, length = 50)
 	private String trainRouteId;
 	
-	@JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
+	@JsonSerialize(using = JsonUtilLocalDateTimeSerializer.class)
+	@JsonDeserialize(using = JsonUtilLocalDateTimeDeSerializer.class)
 	@Column(name = "departure_time", nullable = false, length = 50)
 	private LocalDateTime departureTime;
 	
@@ -49,12 +53,14 @@ public class TrainTimings {
 	@Column(name = "version")
 	private Long version;
 
-	@JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
+	@JsonSerialize(using = JsonUtilLocalDateTimeSerializer.class)
+	@JsonDeserialize(using = JsonUtilLocalDateTimeDeSerializer.class)
 	@CreatedDate
 	@Column(name = "created_date")
 	private LocalDateTime createdDate;
 	
-	@JsonFormat(pattern="dd-MM-yyyy HH:mm:ss")
+	@JsonSerialize(using = JsonUtilLocalDateTimeSerializer.class)
+	@JsonDeserialize(using = JsonUtilLocalDateTimeDeSerializer.class)
 	@LastModifiedDate
 	@Column(name = "last_modified_date")
 	private LocalDateTime lastModifiedDate;

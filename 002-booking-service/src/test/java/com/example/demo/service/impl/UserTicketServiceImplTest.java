@@ -1,51 +1,83 @@
-//package com.example.demo.service.impl;
-//
-//import static org.hamcrest.CoreMatchers.any;
-//import static org.mockito.Mockito.when;
-//
-//import org.junit.jupiter.api.DisplayName;
-//import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.extension.ExtendWith;
-//import org.mockito.InjectMocks;
-//import org.mockito.Mock;
-//import org.mockito.junit.jupiter.MockitoExtension;
-//
-//import com.example.demo.dao.UserTicketDAO;
-//import com.example.demo.dto.TicketBookingRequestCreate;
-//import com.example.demo.dto.TicketBookingResponseCreate;
-//import com.example.demo.entity.UserTicket;
-//
-///**
-// * @author Rajkumar Banala 05-Mar-2021
-// *
-// */
-//
-//@ExtendWith(MockitoExtension.class)
-//public class UserTicketServiceImplTest {
-//	
-//	@Mock
-//	UserTicketDAO userTicketDAO;
-//	
-//	@InjectMocks
-//	UserTicketServiceImpl userTicketServiceImpl;
-//	
-//	@Test
-//	@DisplayName("Book Ticket")
-//	public void bookTicket() {
-//		//context
-//		
-//		when(userTicketDAO.save(any(UserTicket.class))).thenAnswer( i -> {
-//			UserTicket userTicket = i.getArgument(0);
-//			userTicket.setId("1");
-//			return userTicket;
-//		});
-//		
-//		TicketBookingRequestCreate ticketBookingRequestCreate = new TicketBookingRequestCreate();
-//		
-//		//event
-//		TicketBookingResponseCreate result = userTicketServiceImpl.bookTicket("123", ticketBookingRequestCreate);
-//		
-//		//outcome
-//	}
-//	
-//}
+package com.example.demo.service.impl;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
+
+import java.util.Optional;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.example.demo.dao.StationDAO;
+import com.example.demo.dao.StationRouteDAO;
+import com.example.demo.dao.TicketSettingsDAO;
+import com.example.demo.dao.TrainDAO;
+import com.example.demo.dao.TrainRouteDAO;
+import com.example.demo.dao.TrainTimingsDAO;
+import com.example.demo.dao.UserTicketDAO;
+import com.example.demo.dao.UserTicketDetailsDAO;
+import com.example.demo.dto.TicketBookingRequestCreate;
+import com.example.demo.entity.TrainRoute;
+import com.example.demo.exception.AppBaseException;
+
+/**
+ * @author Rajkumar Banala 05-Mar-2021
+ *
+ */
+
+@ExtendWith(MockitoExtension.class)
+class UserTicketServiceImplTest {
+
+	@InjectMocks
+	UserTicketServiceImpl userTicketServiceImpl;
+
+	@Mock
+	TrainDAO trainDAO;
+
+	@Mock
+	TrainRouteDAO trainRouteDAO;
+
+	@Mock
+	UserTicketDAO userTicketDAO;
+
+	@Mock
+	TrainTimingsDAO trainTimingsDAO;
+
+	@Mock
+	StationRouteDAO stationRouteDAO;
+
+	@Mock
+	StationDAO stationDAO;
+
+	@Mock
+	TicketSettingsDAO ticketSettingsDAO;
+
+	@Mock
+	UserTicketDetailsDAO userTicketDetailsDAO;
+
+	@Test
+	@DisplayName("Book Ticket")
+	void bookTicket() {
+		
+		// test
+		Optional<TrainRoute> trainRouteOptional = Optional.empty();
+		when(trainRouteDAO.findById(Mockito.any())).thenReturn(trainRouteOptional);
+
+		TicketBookingRequestCreate ticketBookingRequestCreate = new TicketBookingRequestCreate();
+
+		AppBaseException ex2 = assertThrows(AppBaseException.class, () -> {
+			userTicketServiceImpl.bookTicket("123", ticketBookingRequestCreate);
+		});
+		
+		// expect
+		assertThat(ex2).isNotNull();
+		assertEquals("Train Route not found", ex2.getMessage());
+	}
+}

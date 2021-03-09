@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.StationDAO;
@@ -48,7 +49,13 @@ public class BootstrapSetup {
 	@Autowired
 	TicketSettingsDAO ticketSettingsDAO;
 	
+	@Value("${com.example.demo.db.data-setup}")
+	private boolean dbDataSetup;
+	
 	public void setup() {
+		
+		if(!dbDataSetup)
+			return;
 		
 		// ticket settings
 		TicketSettings ticketSettings = new TicketSettings();
