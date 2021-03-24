@@ -1,0 +1,40 @@
+server:
+  port: 8086
+  servlet:
+    context-path: /booking
+
+spring:
+  application:
+    name: booking-service
+  #db
+  datasource:
+    url: jdbc:mysql://localhost:3306/testing_demo_booking
+    username: root
+    password: root
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+#logs
+logging:
+  level:
+    com:
+      debug:
+      zaxxer: 
+        hikari: error
+    org: error
+
+#eureka
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9002/eureka/
+  instance:
+    prefer-ip-address: true
+
+com:
+  example:
+    demo:
+      db:
+        data-setup: false

@@ -7,7 +7,6 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.dto.TicketBookingRequestCreate;
 import com.example.demo.dto.TicketBookingResponseCreate;
 import com.example.demo.dto.UserTicketsResponseList;
+import com.example.demo.mapping.ApiMapping;
 import com.example.demo.service.UserTicketService;
 
 /**
@@ -26,8 +26,7 @@ import com.example.demo.service.UserTicketService;
  */
 
 @RestController
-@RequestMapping("/api/userTickets")
-@Validated
+@RequestMapping(ApiMapping.UserTicketControllerMapping.API)
 public class UserTicketController {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(UserTicketController.class);
