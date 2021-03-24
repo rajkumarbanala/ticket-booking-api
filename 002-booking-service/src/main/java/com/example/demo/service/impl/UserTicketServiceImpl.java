@@ -84,7 +84,7 @@ public class UserTicketServiceImpl implements UserTicketService {
 		Optional<TrainRoute> trainRouteOptional = trainRouteDAO.findById(trainRouteId);
 		
 		if(!trainRouteOptional.isPresent())
-			throw new AppBaseException("Train Route not found");
+			throw new AppBaseException("TrainRoute not found");
 		
 		TrainRoute trainRoute = trainRouteOptional.get();
 		
@@ -171,8 +171,6 @@ public class UserTicketServiceImpl implements UserTicketService {
 		userTicket.setId(GeneralUtil.getNewUUID());
 		userTicket.setCreatedDate(LocalDateTime.now());
 		
-		userTicket = userTicketDAO.save(userTicket);
-		
 		List<UserTicketDetails> userTicketDetailsListCreate = new ArrayList<>();
 		
 		int seatsBookedCount = 0;
@@ -198,11 +196,12 @@ public class UserTicketServiceImpl implements UserTicketService {
 			
 			userTicketDetails = userTicketDetailsDAO.save(userTicketDetails);
 			LOG.debug("bookTicket().userTicketDetails:" + userTicketDetails);
-//			userDetails.add(UserTicketDetailsMapper.INSTANCE.toUserTicketDetailsResponseCreate(userTicketDetails));
 			UserTicketDetailsResponseCreate userTicketDetailsResponseCreate = new UserTicketDetailsResponseCreate();
 			BeanUtils.copyProperties(userTicketDetails, userTicketDetailsResponseCreate);
 			userDetails.add(userTicketDetailsResponseCreate);
 		}
+		
+		userTicket = userTicketDAO.save(userTicket);
 		
 		TicketBookingResponseCreate response = new TicketBookingResponseCreate();
 		response.setTrainNumber(train.getTrainNumber());
@@ -231,7 +230,6 @@ public class UserTicketServiceImpl implements UserTicketService {
 			
 			List<UserTicketDetails> userTicketDetailsList = userTicketDetailsDAO.findByUserTicketId(userTicket.getId());
 			
-//			List<UserTicketDetailsResponseList> userTicketDetailsListDTO = UserTicketDetailsMapper.INSTANCE.toUserTicketDetailsResponseList(userTicketDetailsList);
 			List<UserTicketDetailsResponseList> userTicketDetailsListDTO = new ArrayList<>();
 			
 			userTicketDetailsList.forEach(userTicketDetails->{

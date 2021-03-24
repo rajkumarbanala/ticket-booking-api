@@ -18,7 +18,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 /**
  * @author Rajkumar Banala 26-Feb-2021
@@ -27,7 +26,6 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
 @Entity
 @Table(name = "user_ticket")
 public class UserTicket {

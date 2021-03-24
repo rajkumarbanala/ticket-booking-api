@@ -33,7 +33,7 @@ import com.example.demo.exception.AppBaseException;
  */
 
 @ExtendWith(MockitoExtension.class)
-class UserTicketServiceImplTest {
+class UserTicketServiceImplTests {
 
 	@InjectMocks
 	UserTicketServiceImpl userTicketServiceImpl;
@@ -63,21 +63,60 @@ class UserTicketServiceImplTest {
 	UserTicketDetailsDAO userTicketDetailsDAO;
 
 	@Test
-	@DisplayName("Book Ticket")
-	void bookTicket() {
+	@DisplayName("Book Ticket Validations")
+	void bookTicketValidations() {
+		
+		// mock data
+		when(trainRouteDAO.findById(Mockito.any())).thenReturn(Optional.empty());
+
+		// inputs
+		TicketBookingRequestCreate ticketBookingRequestCreate = new TicketBookingRequestCreate();
 		
 		// test
-		Optional<TrainRoute> trainRouteOptional = Optional.empty();
-		when(trainRouteDAO.findById(Mockito.any())).thenReturn(trainRouteOptional);
-
-		TicketBookingRequestCreate ticketBookingRequestCreate = new TicketBookingRequestCreate();
-
+		AppBaseException ex1 = assertThrows(AppBaseException.class, () -> {
+			userTicketServiceImpl.bookTicket("123", ticketBookingRequestCreate);
+		});
+		
+		// expect
+		assertThat(ex1).isNotNull();
+		assertEquals("TrainRoute not found", ex1.getMessage());
+		
+		// mock data
+		TrainRoute trainRoute = new TrainRoute();
+		trainRoute.setStationRouteId("1");
+		
+		when(trainRouteDAO.findById(Mockito.any())).thenReturn(Optional.of(trainRoute));
+		when(stationRouteDAO.findById(Mockito.any())).thenReturn(Optional.empty());
+		
+		// inputs
+		
+		// test
 		AppBaseException ex2 = assertThrows(AppBaseException.class, () -> {
 			userTicketServiceImpl.bookTicket("123", ticketBookingRequestCreate);
 		});
 		
 		// expect
 		assertThat(ex2).isNotNull();
-		assertEquals("Train Route not found", ex2.getMessage());
+		assertEquals("StationRoute not found", ex2.getMessage());
+		
+	}
+	@Test
+	@DisplayName("Book Ticket Success")
+	void bookTicketSuccess() {
+		
+		// mock data
+		when(trainRouteDAO.findById(Mockito.any())).thenReturn(Optional.empty());
+
+		// inputs
+		TicketBookingRequestCreate ticketBookingRequestCreate = new TicketBookingRequestCreate();
+
+		// test
+		AppBaseException ex2 = assertThrows(AppBaseException.class, () -> {
+			userTicketServiceImpl.bookTicket("123", ticketBookingRequestCreate);
+		});
+		
+		// expect
+		assertThat(ex2).isNotNull();
+		assertEquals("TrainRoute not found", ex2.getMessage());
 	}
 }

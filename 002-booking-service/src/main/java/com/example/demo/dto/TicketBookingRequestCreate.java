@@ -13,7 +13,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 /**
  * @author Rajkumar Banala 03-Mar-2021
@@ -22,7 +21,6 @@ import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
 public class TicketBookingRequestCreate {
 	
 	@NotNull
