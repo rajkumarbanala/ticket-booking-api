@@ -2,6 +2,9 @@ package com.example.demo.enums;
 
 public class EnumsUtil {
 	
+	private EnumsUtil() {
+	}
+	
 	public enum TicketStatus {
 		ACTIVE, INACTVE
 	}

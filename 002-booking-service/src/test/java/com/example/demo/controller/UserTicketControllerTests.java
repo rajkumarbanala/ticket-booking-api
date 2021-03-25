@@ -27,7 +27,7 @@ import com.example.demo.dto.TicketBookingRequestCreate;
 import com.example.demo.dto.TicketBookingResponseCreate;
 import com.example.demo.dto.UserTicketsResponseList;
 import com.example.demo.handler.ErrorResponse;
-import com.example.demo.mapping.ApiMapping;
+import com.example.demo.mapping.UserTicketControllerMapping;
 import com.example.demo.service.UserTicketService;
 import com.example.demo.util.JsonUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -46,7 +46,7 @@ class UserTicketControllerTests {
 	@MockBean
 	UserTicketService userTicketService;
 	
-	static final String API = ApiMapping.UserTicketControllerMapping.API;
+	static final String API = UserTicketControllerMapping.API;
 	
 	@Test
 	@DisplayName("Book Ticket Validations")
@@ -54,11 +54,11 @@ class UserTicketControllerTests {
 		
 		try {
 			
-			// mock data
-			
 			// inputs
 			TicketBookingRequestCreate ticketBookingRequestCreate = new TicketBookingRequestCreate();
 			String jsonString = JsonUtil.OBJECT_MAPPER.writeValueAsString(ticketBookingRequestCreate);
+			
+			// mock data
 			
 			// test
 			URI uri = URI.create(API + "/" + 1);
@@ -133,9 +133,9 @@ class UserTicketControllerTests {
 		
 		try {
 			
-			// given
+			// inputs
 			
-			// when
+			// mock data
 			List<UserTicketsResponseList> list = new ArrayList<>();
 			when(userTicketService.getUserTickets(Mockito.any())).thenReturn(list);
 			

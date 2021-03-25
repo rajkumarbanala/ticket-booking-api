@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,15 +36,16 @@ import com.example.demo.service.UserTicketService;
 import com.example.demo.util.DateUtil;
 import com.example.demo.util.GeneralUtil;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author Rajkumar Banala 04-Mar-2021
  *
  */
 
+@Slf4j
 @Service
 public class UserTicketServiceImpl implements UserTicketService {
-	
-	private static final Logger LOG = LoggerFactory.getLogger(UserTicketServiceImpl.class);
 	
 	@Autowired
 	TrainDAO trainDAO;
@@ -74,7 +73,7 @@ public class UserTicketServiceImpl implements UserTicketService {
 	
 	@Transactional(readOnly = false)
 	public TicketBookingResponseCreate bookTicket(String userId, TicketBookingRequestCreate ticketBookingRequestCreate) {
-		LOG.debug("bookTicket()");
+		log.debug("bookTicket()");
 		
 		// inputs
 		String trainRouteId = ticketBookingRequestCreate.getTrainRouteId();
@@ -119,19 +118,19 @@ public class UserTicketServiceImpl implements UserTicketService {
 		
 		// check seats availability
 		String travelDateString = DateUtil.convertToMysqlFromat(travelDate);
-		LOG.debug("generateStatement().travelDateString:" + travelDateString);
+		log.debug("generateStatement().travelDateString:" + travelDateString);
 		
 		Long seatsCountForTicketBooking = userTicketDAO.countSeatsForTicketBooking(trainRouteId, travelDateString);
-		LOG.debug("bookTicket().bookedUsersCount:" + seatsCountForTicketBooking);
-		
-		Long usersCountForTicketBooking = userTicketDAO.countUsersForTicketBooking(trainRouteId, travelDateString);
-		LOG.debug("bookTicket().usersCountForTicketBooking:" + usersCountForTicketBooking);
-		
-		if(usersCountForTicketBooking == null)
-			usersCountForTicketBooking = 0l;
+		log.debug("bookTicket().bookedUsersCount:" + seatsCountForTicketBooking);
 		
 		if(seatsCountForTicketBooking == null)
 			seatsCountForTicketBooking = 0l;
+		
+		Long usersCountForTicketBooking = userTicketDAO.countUsersForTicketBooking(trainRouteId, travelDateString);
+		log.debug("bookTicket().usersCountForTicketBooking:" + usersCountForTicketBooking);
+		
+		if(usersCountForTicketBooking == null)
+			usersCountForTicketBooking = 0l;
 		
 		if (seatsCountForTicketBooking >= trainOnlineSeats)
 			throw new AppBaseException("All tickets are booked");
@@ -195,7 +194,7 @@ public class UserTicketServiceImpl implements UserTicketService {
 		for (UserTicketDetails userTicketDetails : userTicketDetailsListCreate) {
 			
 			userTicketDetails = userTicketDetailsDAO.save(userTicketDetails);
-			LOG.debug("bookTicket().userTicketDetails:" + userTicketDetails);
+			log.debug("bookTicket().userTicketDetails:" + userTicketDetails);
 			UserTicketDetailsResponseCreate userTicketDetailsResponseCreate = new UserTicketDetailsResponseCreate();
 			BeanUtils.copyProperties(userTicketDetails, userTicketDetailsResponseCreate);
 			userDetails.add(userTicketDetailsResponseCreate);
@@ -220,7 +219,7 @@ public class UserTicketServiceImpl implements UserTicketService {
 	}
 	
 	public List<UserTicketsResponseList> getUserTickets(String userId) {
-		LOG.debug("getUserTickets");
+		log.debug("getUserTickets");
 		
 		List<UserTicket> userTicketList = userTicketDAO.findByUserIdOrderByCreatedDateAsc(userId);
 		
