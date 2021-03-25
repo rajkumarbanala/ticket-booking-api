@@ -4,12 +4,11 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author Rajkumar Banala 14-May-2019
@@ -17,10 +16,9 @@ import com.fasterxml.jackson.databind.SerializerProvider;
  * 
  */
 
+@Slf4j
 public class JsonUtilLocalDateTimeSerializer extends JsonSerializer<LocalDateTime> {
 	
-	private static final Logger LOG = LoggerFactory.getLogger(JsonUtilLocalDateTimeSerializer.class);
-
 	private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
 	/**
@@ -30,10 +28,10 @@ public class JsonUtilLocalDateTimeSerializer extends JsonSerializer<LocalDateTim
 	 */
 	@Override
 	public void serialize(LocalDateTime date, JsonGenerator jsonGenerator, SerializerProvider provider) throws IOException {
-		LOG.debug("serialize()");
+		log.debug("serialize()");
 
 		String formattedDate = date.format(dateTimeFormatter);
-		LOG.debug("serialize().formattedDate:" + formattedDate);
+		log.debug("serialize().formattedDate:" + formattedDate);
 
 		jsonGenerator.writeString(formattedDate);
 	}

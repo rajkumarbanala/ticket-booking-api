@@ -23,11 +23,14 @@ import com.example.demo.enums.EnumsUtil.StationStatus;
 import com.example.demo.enums.EnumsUtil.TrainType;
 import com.example.demo.util.GeneralUtil;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author Rajkumar Banala 04-Mar-2021
  *
  */
 
+@Slf4j
 @Service
 public class BootstrapSetup {
 	
@@ -53,6 +56,7 @@ public class BootstrapSetup {
 	private boolean dbDataSetup;
 	
 	public void setup() {
+		log.debug("setup()");
 		
 		if(!dbDataSetup)
 			return;

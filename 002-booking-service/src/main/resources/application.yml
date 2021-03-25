@@ -20,9 +20,7 @@ spring:
 logging:
   level:
     com:
-      debug:
-      zaxxer: 
-        hikari: error
+      debug
     org: error
 
 #eureka
