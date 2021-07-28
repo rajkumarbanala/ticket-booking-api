@@ -1,0 +1,29 @@
+#app
+server:
+  port: 9005
+
+logging:
+  level:
+    com: debug
+    org: error
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9002/eureka
+  instance:
+    prefer-ip-address: true
+    hostname: eureka-service
+
+spring:
+  application:
+    name: gateway-service-zuul
+
+zuul:
+  routes:
+    booking-service:
+      path: /booking/**
+      url: http://localhost:8086/booking
+    user-service:
+      path: /user/**
+      url: http://localhost:8085/user

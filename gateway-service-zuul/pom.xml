@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example.demo</groupId>
-	<artifactId>002-gateway-service</artifactId>
+	<artifactId>002-gateway-service-zuul</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>002-gateway-service</name>
+	<name>002-gateway-service-zuul</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>1.8</java.version>
@@ -19,30 +19,37 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-gateway</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
 		<dependency>
+		    <groupId>org.springframework.cloud</groupId>
+		    <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
+		    <version>2.2.0.RELEASE</version>
+		</dependency>		
+		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.5.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
 <!-- 		<dependency> -->
 <!-- 			<groupId>org.springframework.boot</groupId> -->
@@ -56,10 +63,6 @@
 <!-- 		<dependency> -->
 <!-- 			<groupId>org.springframework.boot</groupId> -->
 <!-- 			<artifactId>spring-boot-starter-web</artifactId> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.springframework.cloud</groupId> -->
-<!-- 			<artifactId>spring-cloud-starter-openfeign</artifactId> -->
 <!-- 		</dependency> -->
 <!-- 		<dependency> -->
 <!-- 			<groupId>org.springframework.boot</groupId> -->
@@ -81,6 +84,16 @@
 <!-- 		    <version>2.3.2</version> -->
 <!-- 		</dependency>		 -->
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -92,22 +105,4 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
 </project>
