@@ -19,8 +19,8 @@ spring:
 #logs
 logging:
   level:
-    com:
-      debug
+    com: debug
+    '[com.zaxxer.hikari]': error
     org: error
 
 #eureka
